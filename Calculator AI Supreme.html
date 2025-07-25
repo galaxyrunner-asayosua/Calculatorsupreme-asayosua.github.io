@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator AI Supreme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX for LaTeX Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMckDpbDMBIZB0aSMIAadJbMflagUBCLdC8OksdbJsd+8TTaR" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card-gradient {
+            background: linear-gradient(145deg, #111827, #1f2937);
+        }
+        .welcome-card {
+            background: rgba(30, 64, 175, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.5);
+            transform: translateY(-2px);
+        }
+        .keypad-btn {
+            background-color: #374151;
+            transition: background-color 0.2s ease;
+            user-select: none;
+        }
+        .keypad-btn:hover {
+            background-color: #4b5563;
+        }
+        .keypad-btn-op {
+            background-color: #1e40af;
+        }
+        .keypad-btn-op:hover {
+            background-color: #1d4ed8;
+        }
+        .prose { max-width: none; }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto space-y-8">
+        <!-- Halaman Sambutan (Welcome Page) -->
+        <div class="welcome-card rounded-xl p-6 shadow-lg">
+            <h2 class="text-2xl font-bold text-blue-300 mb-3">Selamat Datang!</h2>
+            <p class="text-gray-300 mb-4">
+                Ini adalah **Kalkulator AI Supreme**. Anda bisa memasukkan soal matematika biasa atau soal cerita yang rumit, dan AI akan memberikan jawaban beserta langkah-langkahnya.
+            </p>
+            <div class="text-sm text-gray-400">
+                <p class="font-semibold mb-2 text-gray-300">Cara Penggunaan:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>Gunakan tombol angka untuk perhitungan cepat.</li>
+                    <li>Ketuk kolom soal untuk mengetik soal cerita atau aljabar.</li>
+                    <li>Tekan tombol "Hitung dengan AI" untuk mendapatkan jawaban.</li>
+                </ul>
+                <p class="mt-4 font-semibold text-green-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-1"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Anda tidak perlu instalasi apapun. Aplikasi ini berjalan di semua browser modern.
+                </p>
+            </div>
+        </div>
+
+        <!-- Aplikasi Kalkulator Utama -->
+        <div class="card-gradient rounded-xl shadow-2xl p-6 md:p-8">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Kalkulator AI Supreme</h1>
+            </div>
+
+            <div class="space-y-4">
+                <label for="problem-input" class="block text-sm font-medium text-gray-300">Ketuk kolom untuk mengetik soal, atau gunakan tombol:</label>
+                <textarea id="problem-input" rows="4" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white placeholder-gray-400 text-lg" placeholder="2 + 2" inputmode="none"></textarea>
+                
+                <div id="keypad-container" class="grid grid-cols-4 gap-2">
+                    <button data-value="C" class="keypad-btn keypad-btn-op text-xl font-bold rounded-lg p-4">C</button>
+                    <button data-value="(" class="keypad-btn text-xl font-bold rounded-lg p-4">(</button>
+                    <button data-value=")" class="keypad-btn text-xl font-bold rounded-lg p-4">)</button>
+                    <button data-value="/" class="keypad-btn keypad-btn-op text-xl font-bold rounded-lg p-4">÷</button>
+                    <button data-value="7" class="keypad-btn text-xl font-bold rounded-lg p-4">7</button>
+                    <button data-value="8" class="keypad-btn text-xl font-bold rounded-lg p-4">8</button>
+                    <button data-value="9" class="keypad-btn text-xl font-bold rounded-lg p-4">9</button>
+                    <button data-value="*" class="keypad-btn keypad-btn-op text-xl font-bold rounded-lg p-4">×</button>
+                    <button data-value="4" class="keypad-btn text-xl font-bold rounded-lg p-4">4</button>
+                    <button data-value="5" class="keypad-btn text-xl font-bold rounded-lg p-4">5</button>
+                    <button data-value="6" class="keypad-btn text-xl font-bold rounded-lg p-4">6</button>
+                    <button data-value="-" class="keypad-btn keypad-btn-op text-xl font-bold rounded-lg p-4">-</button>
+                    <button data-value="1" class="keypad-btn text-xl font-bold rounded-lg p-4">1</button>
+                    <button data-value="2" class="keypad-btn text-xl font-bold rounded-lg p-4">2</button>
+                    <button data-value="3" class="keypad-btn text-xl font-bold rounded-lg p-4">3</button>
+                    <button data-value="+" class="keypad-btn keypad-btn-op text-xl font-bold rounded-lg p-4">+</button>
+                    <button data-value="0" class="keypad-btn col-span-2 text-xl font-bold rounded-lg p-4">0</button>
+                    <button data-value="." class="keypad-btn text-xl font-bold rounded-lg p-4">.</button>
+                    <button data-value="=" class="keypad-btn keypad-btn-op text-xl font-bold rounded-lg p-4">=</button>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button id="calculate-btn" class="w-full btn-primary text-white font-semibold py-3 px-4 rounded-lg shadow-lg flex items-center justify-center gap-2">
+                        <svg id="calculate-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                        <span id="calculate-text">Hitung dengan AI</span>
+                        <svg id="loading-spinner" class="animate-spin h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                    <button id="clear-btn" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md transition-colors">Hapus Semua</button>
+                </div>
+            </div>
+
+            <div id="result-container" class="mt-8 border-t border-gray-700 pt-6 hidden">
+                <div class="mb-6">
+                    <h2 id="answer-title" class="text-xl font-semibold text-blue-300 mb-2">Jawaban</h2>
+                    <div id="answer-container" class="bg-gray-800 p-4 rounded-lg text-lg prose">
+                        <p id="answer-text"></p>
+                    </div>
+                </div>
+                <div id="steps-section" class="hidden">
+                    <h2 class="text-xl font-semibold text-blue-300 mb-2">Langkah-langkah Penyelesaian</h2>
+                    <div id="steps-container" class="bg-gray-800 p-4 rounded-lg text-gray-300 space-y-2 prose"></div>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center pb-4 text-sm text-gray-500">
+            Ditenagai oleh AI Generatif Level Supreme. Inspirator oleh AYOS.
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Semua kode Javascript dari versi sebelumnya tetap sama persis
+            // Tidak ada perubahan fungsionalitas, hanya penambahan elemen HTML di atas.
+            const problemInput = document.getElementById('problem-input');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const calculateText = document.getElementById('calculate-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const clearBtn = document.getElementById('clear-btn');
+            const resultContainer = document.getElementById('result-container');
+            const answerTitle = document.getElementById('answer-title');
+            const answerText = document.getElementById('answer-text');
+            const stepsSection = document.getElementById('steps-section');
+            const stepsContainer = document.getElementById('steps-container');
+            const keypadContainer = document.getElementById('keypad-container');
+
+            const renderMath = () => {
+                if (window.renderMathInElement) {
+                    renderMathInElement(resultContainer, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                        ], throwOnError: false
+                    });
+                }
+            };
+
+            const handleCalculate = async () => {
+                problemInput.inputMode = 'none';
+                const userPrompt = problemInput.value.trim();
+                if (!userPrompt) {
+                    displayError("Input tidak boleh kosong. Silakan masukkan soal matematika.", false);
+                    return;
+                }
+                setLoadingState(true);
+                resultContainer.classList.add('hidden');
+
+                try {
+                    const fullPrompt = `
+                        Anda adalah Kalkulator AI level Supreme, seorang jenius matematika dengan keahlian di semua bidang: aljabar, geometri, trigonometri, kalkulus, statistika, dan fisika dasar. Tujuan Anda bukan hanya memberi jawaban, tapi juga mendidik pengguna.
+                        **Aturan Utama:**
+                        1.  **Analisis Mendalam:** Pahami inti dari pertanyaan. Jika soal cerita, identifikasi variabel, buat persamaan, dan selesaikan. Jika soal kalkulus, jelaskan aturan (turunan/integral) yang digunakan.
+                        2.  **Deteksi Ketidaklengkapan:** Jika soal ambigu atau kurang informasi, nyatakan dengan jelas informasi apa yang kurang.
+                        3.  **Gunakan LaTeX:** Selalu gunakan notasi LaTeX untuk semua rumus, variabel, dan ekspresi matematika. Gunakan $...$ untuk inline math dan $$...$$ untuk display math.
+                        4.  **Format Output JSON WAJIB:**
+                            * \`"jawaban"\`: (String) Jawaban akhir yang ringkas dan jelas.
+                            * \`"langkah"\`: (String) Penjelasan langkah demi langkah yang sangat detail, bersifat edukatif.
+                            * \`"lengkap"\`: (Boolean) \`true\` jika soal bisa dijawab, \`false\` jika tidak lengkap.
+                        Seluruh respons harus dalam Bahasa Indonesia.
+                        **Soal dari Pengguna:** "${userPrompt}"
+                    `;
+
+                    let chatHistory = [{ role: "user", parts: [{ text: fullPrompt }] }];
+                    const payload = {
+                        contents: chatHistory,
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "OBJECT",
+                                properties: {
+                                    "jawaban": { "type": "STRING" },
+                                    "langkah": { "type": "STRING" },
+                                    "lengkap": { "type": "BOOLEAN" }
+                                },
+                                required: ["jawaban", "langkah", "lengkap"]
+                            }
+                        }
+                    };
+                    
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) throw new Error(`API Error: ${response.status}`);
+
+                    const result = await response.json();
+                    if (result.candidates?.[0]?.content?.parts?.[0]) {
+                        const parsedJson = JSON.parse(result.candidates[0].content.parts[0].text);
+                        if (parsedJson.lengkap === false) {
+                            displayError(parsedJson.jawaban, false);
+                        } else {
+                            displayResults(parsedJson.jawaban, parsedJson.langkah);
+                        }
+                    } else {
+                        throw new Error("Struktur respons API tidak valid.");
+                    }
+                } catch (error) {
+                    console.error('Calculation Error:', error);
+                    displayError(`Terjadi kesalahan teknis: ${error.message}.`, true);
+                } finally {
+                    setLoadingState(false);
+                }
+            };
+
+            const displayResults = (answer, steps) => {
+                answerTitle.textContent = "Jawaban";
+                answerText.innerHTML = answer;
+                answerText.className = "text-lg prose";
+                stepsContainer.innerHTML = steps;
+                stepsSection.classList.remove('hidden');
+                resultContainer.classList.remove('hidden');
+                renderMath();
+            };
+
+            const displayError = (message, isTechnicalError) => {
+                answerTitle.textContent = isTechnicalError ? "Error Teknis" : "Analisis AI";
+                answerText.innerHTML = message;
+                answerText.className = isTechnicalError ? "text-lg text-red-400 prose" : "text-lg text-amber-400 prose";
+                stepsSection.classList.add('hidden');
+                resultContainer.classList.remove('hidden');
+                renderMath();
+            };
+
+            const handleClear = () => {
+                problemInput.value = '';
+                problemInput.inputMode = 'none';
+                resultContainer.classList.add('hidden');
+                answerText.innerHTML = '';
+                stepsContainer.innerHTML = '';
+            };
+
+            const setLoadingState = (isLoading) => {
+                calculateBtn.disabled = isLoading;
+                if (isLoading) {
+                    calculateText.classList.add('hidden');
+                    loadingSpinner.classList.remove('hidden');
+                } else {
+                    calculateText.classList.remove('hidden');
+                    loadingSpinner.classList.add('hidden');
+                }
+            };
+
+            const handleKeypadClick = (e) => {
+                const button = e.target.closest('button');
+                if (!button) return;
+
+                problemInput.inputMode = 'none';
+                
+                const value = button.dataset.value;
+                if (value === 'C') {
+                    problemInput.value = '';
+                } else if (value === '=') {
+                    handleCalculate();
+                } else {
+                    problemInput.value += value;
+                }
+            };
+
+            problemInput.addEventListener('click', () => {
+                problemInput.inputMode = 'text';
+            });
+            
+            calculateBtn.addEventListener('click', handleCalculate);
+            clearBtn.addEventListener('click', handleClear);
+            keypadContainer.addEventListener('click', handleKeypadClick);
+            problemInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleCalculate();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
